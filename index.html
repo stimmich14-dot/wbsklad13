@@ -18,7 +18,8 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            overflow: hidden; /* Убирает полосы прокрутки */
+            overflow: hidden;
+            position: relative;
         }
 
         /* Анимация появления текста */
@@ -44,6 +45,7 @@
             letter-spacing: 5px;
             animation: fadeInDown 1.5s ease-out, pulse 3s infinite;
             z-index: 2;
+            text-align: center;
         }
 
         .subtitle {
@@ -53,6 +55,7 @@
             letter-spacing: 2px;
             animation: fadeInDown 1.5s ease-out 0.5s both;
             z-index: 2;
+            text-align: center;
         }
 
         /* Блок с информацией */
@@ -67,6 +70,7 @@
             animation: fadeInUp 1.5s ease-out 1s both;
             backdrop-filter: blur(5px);
             z-index: 2;
+            text-align: center;
         }
 
         .info-box p {
@@ -107,37 +111,48 @@
             transform: translateY(-3px);
         }
 
-        /* Фоновые частицы (имитация пыли) */
-        .particles {
+        /* Текст в самом низу */
+        .footer-text {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #888888;
+            font-size: 18px;
+            animation: fadeInUp 2s ease-out 2s both;
+            z-index: 2;
+        }
+        .footer-text span {
+            color: #a855f7;
+            font-weight: bold;
+        }
+
+        /* АНИМАЦИЯ СНЕГА */
+        .snow-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
-        .particle {
+        .snowflake {
             position: absolute;
-            background: #a855f7;
+            top: -10px;
+            background-color: white;
             border-radius: 50%;
-            opacity: 0.3;
-            animation: floatUp 10s infinite linear;
+            opacity: 0.8;
+            animation: fall linear infinite;
         }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(1); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) scale(0); opacity: 0; }
+        @keyframes fall {
+            0% { transform: translateY(-10px) translateX(0); }
+            100% { transform: translateY(100vh) translateX(50px); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновые частицы -->
-    <div class="particles">
-        <div class="particle" style="left: 10%; width: 4px; height: 4px; animation-duration: 8s;"></div>
-        <div class="particle" style="left: 30%; width: 6px; height: 6px; animation-duration: 12s; animation-delay: 2s;"></div>
-        <div class="particle" style="left: 50%; width: 3px; height: 3px; animation-duration: 6s; animation-delay: 4s;"></div>
-        <div class="particle" style="left: 70%; width: 5px; height: 5px; animation-duration: 15s; animation-delay: 1s;"></div>
-        <div class="particle" style="left: 90%; width: 4px; height: 4px; animation-duration: 9s; animation-delay: 3s;"></div>
-    </div>
+    <!-- Фоновый снег (скрипт ниже создаст 50 снежинок) -->
+    <div class="snow-container" id="snow-container"></div>
 
     <!-- Контент -->
     <h1>СКЛАД 13</h1>
@@ -154,5 +169,40 @@
         </a>
     </div>
 
+    <!-- Текст внизу -->
+    <div class="footer-text">
+        Скоро будут выходить видео с моей игрой 🎬👻
+    </div>
+
+    <!-- Скрипт для генерации снежинок -->
+    <script>
+        const container = document.getElementById('snow-container');
+        const snowflakeCount = 50; // Количество снежинок
+
+        for (let i = 0; i < snowflakeCount; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            
+            // Случайный размер от 2 до 6 пикселей
+            const size = Math.random() * 4 + 2;
+            snowflake.style.width = size + 'px';
+            snowflake.style.height = size + 'px';
+            
+            // Случайная позиция по горизонтали
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            
+            // Случайная скорость падения (от 3 до 10 секунд)
+            const duration = Math.random() * 7 + 3;
+            snowflake.style.animationDuration = duration + 's';
+            
+            // Случайная задержка, чтобы снег падал не одновременно
+            snowflake.style.animationDelay = Math.random() * 5 + 's';
+            
+            // Случайная прозрачность
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+
+            container.appendChild(snowflake);
+        }
+    </script>
 </body>
 </html>
