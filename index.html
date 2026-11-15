@@ -23,20 +23,18 @@
             position: relative;
         }
 
-        /* --- ВЕРЕВКА С ГИРЛЯНДОЙ (СВЕРХУ) --- */
+        /* --- ГИРЛЯНДА --- */
         .garland-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 200px;
             z-index: 10; pointer-events: none;
         }
-        /* Настоящая натянутая веревка */
         .wire {
             position: absolute;
             top: 20px; left: 0; width: 100%; height: 2px;
             background: #333;
             box-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
-        /* Провисание гирлянды (сам провод) */
         .garland-drop {
             position: absolute;
             top: 20px; left: 0; width: 100%; height: 100%;
@@ -50,14 +48,22 @@
         
         .bulb {
             position: absolute; width: 16px; height: 24px; border-radius: 50% 50% 30% 30%;
-            transform: translate(-50%, -50%); animation: blink 1.5s infinite alternate;
-            box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+            transform: translate(-50%, -50%); 
+            opacity: 0.2; /* Выключенное состояние */
+            transition: all 0.1s ease;
         }
         .bulb::before {
             content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
             width: 5px; height: 8px; background: #333; border-radius: 2px;
         }
-        @keyframes blink { 0% { opacity: 0.4; box-shadow: 0 0 5px currentColor; } 100% { opacity: 1; box-shadow: 0 0 25px currentColor, 0 0 50px currentColor, 0 0 80px currentColor; } }
+        
+        /* Включенная лампочка */
+        .bulb.active {
+            opacity: 1;
+            box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
         .bulb.red { background: #ff2020; color: #ff2020; }
         .bulb.green { background: #20ff20; color: #20ff20; }
         .bulb.blue { background: #2020ff; color: #2020ff; }
@@ -88,7 +94,7 @@
         .info-box p { font-size: 19px; line-height: 1.8; color: #eeeeee; margin: 12px 0; }
         .highlight { color: #ffff00; font-weight: 900; text-transform: uppercase; text-shadow: 0 0 15px rgba(255, 255, 0, 1), 0 0 30px rgba(255, 255, 0, 0.6); }
 
-        /* --- КНОПКА TIKTOK --- */
+        /* --- КНОПКА --- */
         .btn-tiktok {
             display: inline-flex; align-items: center; justify-content: center; margin-top: 30px; padding: 18px 55px;
             background: linear-gradient(45deg, #000, #4a0e8f); color: #ffffff; text-decoration: none; border-radius: 50px;
@@ -168,22 +174,17 @@
 </head>
 <body>
 
-    <!-- Звезды -->
     <div id="stars"></div>
 
-    <!-- Гирлянда (на веревке) -->
     <div class="garland-container">
         <div class="wire"></div>
         <div class="garland-drop" id="garland-drop"></div>
     </div>
 
-    <!-- Снег -->
     <div class="snow-container" id="snow-container"></div>
 
-    <!-- Холст для салюта -->
     <canvas id="fireworks-canvas"></canvas>
 
-    <!-- Ёлка -->
     <div class="tree-container">
         <div class="star-top">⭐</div>
         <div class="tree-layer"><div class="ornament"></div><div class="ornament"></div><div class="ornament"></div></div>
@@ -192,7 +193,6 @@
         <div class="trunk"></div>
     </div>
 
-    <!-- Снеговик -->
     <div class="snowman-container">
         <div class="snowball snowball-3">
             <div class="hat"></div>
@@ -211,7 +211,6 @@
         <div class="snowball snowball-1"></div>
     </div>
 
-    <!-- Контент -->
     <h1>СКЛАД 13</h1>
     <div class="subtitle">Ночная смена в Wildberries</div>
 
@@ -351,10 +350,11 @@
             snowContainer.appendChild(snowflake);
         }
 
-        // --- ГИРЛЯНДА ---
+        // --- ГИРЛЯНДА (ХАОТИЧНОЕ МИГАНИЕ) ---
         const bulbsContainer = document.getElementById('garland-drop');
         const colors = ['red', 'green', 'blue', 'yellow', 'purple'];
         const bulbCount = 45;
+        const bulbs = []; 
         
         for (let i = 0; i <= bulbCount; i++) {
             const bulb = document.createElement('div');
@@ -369,7 +369,20 @@
             bulb.style.top = (10 + yPercent) + 'px';
             
             bulbsContainer.appendChild(bulb);
+            bulbs.push(bulb);
         }
+
+        // Запускаем хаотичное мигание
+        setInterval(() => {
+            bulbs.forEach(bulb => {
+                // 50% шанс, что лампочка загорится
+                if (Math.random() > 0.5) {
+                    bulb.classList.add('active');
+                } else {
+                    bulb.classList.remove('active');
+                }
+            });
+        }, 150); // Мигают каждые 150 миллисекунд (очень быстро)
 
         // --- ЗВЕЗДЫ ---
         const starsContainer = document.getElementById('stars');
