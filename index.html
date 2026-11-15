@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Склад 13 — Новогодний хоррор</title>
+    <title>Склад 13 — Хоррор</title>
     <style>
-        /* Базовые настройки и шрифты */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
         
         body {
-            background-color: #050510;
-            background-image: radial-gradient(circle at 50% 0%, #1a0b2e 0%, #050510 80%);
+            background-color: #030308;
+            background-image: radial-gradient(circle at 50% 0%, #1d0b33 0%, #030308 80%);
             color: #ffffff;
             font-family: 'Montserrat', sans-serif;
             margin: 0;
@@ -24,256 +23,170 @@
             position: relative;
         }
 
-        /* ГИРЛЯНДА ДУГОЙ СВЕРХУ */
+        /* --- ВЕРЕВКА С ГИРЛЯНДОЙ (СВЕРХУ) --- */
         .garland-container {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 150px;
-            z-index: 10;
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 200px;
+            z-index: 10; pointer-events: none;
         }
+        /* Настоящая натянутая веревка */
         .wire {
             position: absolute;
-            top: 0; left: -10%; width: 120%; height: 100%;
-            border-bottom: 2px solid #222;
-            border-radius: 0 0 50% 50%;
+            top: 20px; left: 0; width: 100%; height: 2px;
+            background: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
-        .bulb {
+        /* Провисание гирлянды (сам провод) */
+        .garland-drop {
             position: absolute;
-            width: 12px; height: 20px;
-            border-radius: 50% 50% 30% 30%;
-            transform: translate(-50%, -50%);
-            animation: blink 1.5s infinite alternate;
-            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+            top: 20px; left: 0; width: 100%; height: 100%;
+            border-bottom: 3px solid #222;
+            border-radius: 0 0 50% 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.9);
+            animation: swing 4s ease-in-out infinite alternate;
+            transform-origin: top center;
+        }
+        @keyframes swing { 0% { transform: rotate(0.8deg); } 100% { transform: rotate(-0.8deg); } }
+        
+        .bulb {
+            position: absolute; width: 16px; height: 24px; border-radius: 50% 50% 30% 30%;
+            transform: translate(-50%, -50%); animation: blink 1.5s infinite alternate;
+            box-shadow: 0 0 20px currentColor, 0 0 40px currentColor, 0 0 60px currentColor;
         }
         .bulb::before {
-            content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
-            width: 4px; height: 6px; background: #333; border-radius: 2px;
+            content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+            width: 5px; height: 8px; background: #333; border-radius: 2px;
         }
-        @keyframes blink {
-            0% { opacity: 0.2; box-shadow: 0 0 5px currentColor; }
-            100% { opacity: 1; box-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
-        }
-        .bulb:nth-child(odd) { animation-duration: 1.2s; animation-delay: 0.1s; }
-        .bulb:nth-child(even) { animation-duration: 2s; animation-delay: 0.4s; }
-        .bulb:nth-child(3n) { animation-duration: 1.7s; animation-delay: 0.7s; }
+        @keyframes blink { 0% { opacity: 0.4; box-shadow: 0 0 5px currentColor; } 100% { opacity: 1; box-shadow: 0 0 25px currentColor, 0 0 50px currentColor, 0 0 80px currentColor; } }
+        .bulb.red { background: #ff2020; color: #ff2020; }
+        .bulb.green { background: #20ff20; color: #20ff20; }
+        .bulb.blue { background: #2020ff; color: #2020ff; }
+        .bulb.yellow { background: #ffff20; color: #ffff20; }
+        .bulb.purple { background: #d020ff; color: #d020ff; }
 
-        /* Цвета лампочек */
-        .red { background: #ff3333; color: #ff3333; }
-        .green { background: #33ff33; color: #33ff33; }
-        .blue { background: #3333ff; color: #3333ff; }
-        .yellow { background: #ffff33; color: #ffff33; }
-        .purple { background: #a855f7; color: #a855f7; }
-
-        /* Анимации появления */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes neonPulse {
-            0% { text-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 40px #a855f7; }
-            50% { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
-            100% { text-shadow: 0 0 10px #a855f7, 0 0 20px #a855f7, 0 0 40px #a855f7; }
-        }
-
-        /* Заголовок */
+        /* --- ЗАГОЛОВОК --- */
         h1 {
-            color: #ffffff;
-            font-size: 100px;
-            font-weight: 900;
-            margin-top: 60px;
-            margin-bottom: 10px;
-            letter-spacing: 10px;
-            animation: fadeInDown 1.5s ease-out, neonPulse 4s infinite;
-            z-index: 2;
-            text-align: center;
+            font-size: 115px; font-weight: 900; margin-top: 100px; margin-bottom: 5px; letter-spacing: 12px; text-align: center; z-index: 2;
+            animation: fadeInDown 1.5s ease-out, float 4s ease-in-out infinite;
+            background: linear-gradient(to bottom, #ffffff 0%, #a855f7 40%, #d020ff 60%, #ffffff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(208, 32, 255, 0.9)) drop-shadow(0 0 40px rgba(168, 85, 247, 0.6));
         }
-
         .subtitle {
-            font-size: 22px;
-            color: #aaaaaa;
-            margin-bottom: 40px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            font-weight: 700;
-            animation: fadeInDown 1.5s ease-out 0.5s both;
-            z-index: 2;
+            font-size: 24px; color: #d020ff; margin-bottom: 45px; letter-spacing: 10px; text-transform: uppercase; font-weight: 900;
+            animation: fadeInDown 1.5s ease-out 0.5s both; z-index: 2; text-shadow: 0 0 20px #d020ff, 0 0 40px #a855f7;
         }
 
-        /* Стеклянный блок с информацией */
+        /* --- БЛОК С ИНФОЙ --- */
         .info-box {
-            background: rgba(15, 15, 25, 0.6);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            border-radius: 20px;
-            padding: 40px 50px;
-            max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.1), inset 0 0 20px rgba(168, 85, 247, 0.1);
-            animation: fadeInUp 1.5s ease-out 1s both;
-            backdrop-filter: blur(15px);
-            z-index: 2;
-            text-align: center;
-            position: relative;
+            background: rgba(10, 5, 20, 0.7); border: 2px solid rgba(168, 85, 247, 0.6); border-radius: 24px; padding: 40px 50px;
+            max-width: 600px; margin: 0 auto; 
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 60px rgba(168, 85, 247, 0.5), inset 0 0 50px rgba(208, 32, 255, 0.2);
+            animation: fadeInUp 1.5s ease-out 1s both; backdrop-filter: blur(25px); z-index: 2; text-align: center; position: relative;
         }
-        
-        .info-box::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, #a855f7, transparent);
-        }
+        .info-box::before { content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 3px; background: linear-gradient(90deg, transparent, #d020ff, #fff, #d020ff, transparent); border-radius: 50%; box-shadow: 0 0 15px #d020ff; }
+        .info-box p { font-size: 19px; line-height: 1.8; color: #eeeeee; margin: 12px 0; }
+        .highlight { color: #ffff00; font-weight: 900; text-transform: uppercase; text-shadow: 0 0 15px rgba(255, 255, 0, 1), 0 0 30px rgba(255, 255, 0, 0.6); }
 
-        .info-box p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: #dddddd;
-            margin: 15px 0;
-            font-weight: 400;
-        }
-
-        .highlight {
-            color: #eab308;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
-        }
-
-        /* Кнопка TikTok */
+        /* --- КНОПКА TIKTOK --- */
         .btn-tiktok {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 35px;
-            padding: 18px 50px;
-            background: linear-gradient(45deg, #000, #1a0b2e);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 22px;
-            font-weight: 700;
-            border: 2px solid #a855f7;
-            transition: all 0.3s ease;
-            z-index: 2;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            display: inline-flex; align-items: center; justify-content: center; margin-top: 30px; padding: 18px 55px;
+            background: linear-gradient(45deg, #000, #4a0e8f); color: #ffffff; text-decoration: none; border-radius: 50px;
+            font-size: 22px; font-weight: 900; border: 2px solid #d020ff; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2; animation: btnPulse 2s infinite;
         }
-        .btn-tiktok::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
+        @keyframes btnPulse { 
+            0% { box-shadow: 0 0 20px rgba(208, 32, 255, 0.6); } 
+            50% { box-shadow: 0 0 60px rgba(208, 32, 255, 1), 0 0 100px rgba(168, 85, 247, 0.5); } 
+            100% { box-shadow: 0 0 20px rgba(208, 32, 255, 0.6); } 
         }
-        .btn-tiktok:hover::before { left: 100%; }
-        .btn-tiktok:hover {
-            background: #a855f7;
-            color: #000;
-            box-shadow: 0 0 40px rgba(168, 85, 247, 1);
-            transform: translateY(-5px) scale(1.05);
-            border-color: #ffffff;
-        }
+        .btn-tiktok:hover { background: #d020ff; color: #000; transform: translateY(-5px) scale(1.1); animation: none; box-shadow: 0 0 80px #d020ff; }
 
-        /* Текст внизу */
-        .footer-text {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: #888;
-            font-size: 18px;
-            font-style: italic;
-            animation: fadeInUp 2s ease-out 2s both;
-            z-index: 2;
-            text-shadow: 0 0 10px #000;
-        }
-        .footer-text span { color: #a855f7; font-weight: bold; }
+        /* --- ТЕКСТ ВНИЗУ --- */
+        .footer-text { position: absolute; bottom: 15px; width: 100%; text-align: center; color: #aaa; font-size: 17px; font-style: italic; animation: fadeInUp 2s ease-out 2s both; z-index: 2; text-shadow: 0 0 10px #000; }
+        .footer-text span { color: #d020ff; font-weight: bold; text-shadow: 0 0 10px #d020ff; }
 
-        /* --- КРАСИВАЯ ЁЛКА --- */
-        .tree-container {
-            position: absolute;
-            bottom: 20px;
-            left: 5%;
-            z-index: 3;
-            animation: fadeInUp 2s ease-out 1.5s both;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 100, 0.2));
-        }
-        .star-top { font-size: 40px; margin-bottom: -15px; animation: pulse 2s infinite; z-index: 10; }
-        .tree-layer {
-            width: 0; height: 0;
-            border-left: 70px solid transparent;
-            border-right: 70px solid transparent;
-            border-bottom: 100px solid #0a3d1f;
-            margin-bottom: -40px;
-            position: relative;
-        }
-        .tree-layer:nth-child(3) { border-left-width: 55px; border-right-width: 55px; border-bottom-width: 90px; filter: brightness(1.1); }
-        .tree-layer:nth-child(4) { border-left-width: 40px; border-right-width: 40px; border-bottom-width: 80px; filter: brightness(1.2); }
-        .trunk { width: 25px; height: 40px; background: #3e2011; border-radius: 5px; z-index: 1; }
-        
-        /* Игрушки на ёлке */
+        /* --- ЁЛКА --- */
+        .tree-container { position: absolute; bottom: 10px; left: 5%; z-index: 3; animation: fadeInUp 2s ease-out 1.5s both; display: flex; flex-direction: column; align-items: center; filter: drop-shadow(0 0 30px rgba(0, 255, 100, 0.4)) drop-shadow(10px 20px 30px rgba(0, 0, 0, 0.9)); }
+        .star-top { font-size: 50px; margin-bottom: -20px; animation: pulse 1.5s infinite; z-index: 10; text-shadow: 0 0 30px #ffff00, 0 0 60px #ffff00, 0 0 100px #ffff00; }
+        .tree-layer { width: 0; height: 0; border-left: 80px solid transparent; border-right: 80px solid transparent; border-bottom: 110px solid #063b1c; margin-bottom: -45px; position: relative; }
+        .tree-layer:nth-child(3) { border-left-width: 65px; border-right-width: 65px; border-bottom-width: 100px; border-bottom-color: #0a4d25; box-shadow: inset 0 -30px 30px rgba(0,0,0,0.6); }
+        .tree-layer:nth-child(4) { border-left-width: 50px; border-right-width: 50px; border-bottom-width: 90px; border-bottom-color: #0e5e2e; box-shadow: inset 0 -30px 30px rgba(0,0,0,0.6); }
+        .trunk { width: 30px; height: 50px; background: #2d1205; border-radius: 5px; z-index: 1; box-shadow: 0 5px 15px #000; }
         .ornament { position: absolute; border-radius: 50%; animation: blink 2s infinite alternate; }
-        .ornament:nth-child(1) { width: 15px; height: 15px; background: #ff3333; bottom: 20px; left: -20px; box-shadow: 0 0 15px #ff3333; animation-delay: 0.1s; }
-        .ornament:nth-child(2) { width: 12px; height: 12px; background: #ffff33; bottom: 50px; left: 30px; box-shadow: 0 0 15px #ffff33; animation-delay: 0.5s; }
-        .ornament:nth-child(3) { width: 18px; height: 18px; background: #3333ff; bottom: 10px; left: 40px; box-shadow: 0 0 15px #3333ff; animation-delay: 0.9s; }
+        .ornament:nth-child(1) { width: 20px; height: 20px; background: #ff3333; bottom: 10px; left: -25px; box-shadow: 0 0 25px #ff3333, 0 0 50px #ff3333; }
+        .ornament:nth-child(2) { width: 16px; height: 16px; background: #ffff33; bottom: 40px; left: 35px; box-shadow: 0 0 25px #ffff33, 0 0 50px #ffff33; }
+        .ornament:nth-child(3) { width: 24px; height: 24px; background: #3333ff; bottom: 0px; left: 50px; box-shadow: 0 0 25px #3333ff, 0 0 50px #3333ff; }
 
-        /* --- КРАСИВЫЙ СНЕГОВИК --- */
-        .snowman-container {
-            position: absolute;
-            bottom: 20px;
-            right: 5%;
-            z-index: 3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: fadeInUp 2s ease-out 1.8s both;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
-        }
-        .snowball {
-            background: radial-gradient(circle at 30% 30%, #ffffff, #b3b3b3);
-            border-radius: 50%;
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
-            z-index: 2;
-        }
-        .snowball-1 { width: 90px; height: 90px; }
-        .snowball-2 { width: 70px; height: 70px; margin-bottom: -15px; }
-        .snowball-3 { width: 55px; height: 55px; margin-bottom: -15px; position: relative; }
-        .face { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); font-size: 14px; white-space: nowrap; }
-        .nose { width: 22px; height: 6px; background: orange; position: absolute; top: 25px; left: 35px; border-radius: 50%; transform: rotate(10deg); }
-        .scarf { position: absolute; top: -5px; width: 65px; height: 15px; background: #cc0000; border-radius: 5px; z-index: 3; }
-        .scarf-tail { position: absolute; top: 5px; left: 15px; width: 10px; height: 30px; background: #cc0000; transform: rotate(-10deg); z-index: 1; }
+        /* --- СНЕГОВИК --- */
+        .snowman-container { position: absolute; bottom: 10px; right: 5%; z-index: 3; display: flex; flex-direction: column; align-items: center; animation: fadeInUp 2s ease-out 1.8s both; filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.3)) drop-shadow(10px 20px 30px rgba(0, 0, 0, 0.9)); }
+        .snowball { background: radial-gradient(circle at 30% 30%, #ffffff 0%, #e0e0e0 40%, #999 100%); border-radius: 50%; box-shadow: inset -20px -20px 40px rgba(0,0,0,0.5); z-index: 2; }
+        .snowball-1 { width: 110px; height: 110px; } 
+        .snowball-2 { width: 85px; height: 85px; margin-bottom: -20px; position: relative; }
+        .snowball-3 { width: 65px; height: 65px; margin-bottom: -20px; position: relative; }
+        
+        .arm { position: absolute; width: 45px; height: 4px; background: #3e2011; border-radius: 2px; z-index: 1; }
+        .arm-left { top: 40px; left: -35px; transform: rotate(30deg); }
+        .arm-right { top: 40px; right: -35px; transform: rotate(-30deg); }
+        .arm::after { content: ''; position: absolute; width: 15px; height: 3px; background: #3e2011; border-radius: 2px; }
+        .arm-left::after { top: -5px; left: 0px; transform: rotate(-45deg); }
+        .arm-right::after { top: -5px; right: 0px; transform: rotate(45deg); }
 
-        /* СНЕГ */
+        .eye { position: absolute; top: 18px; width: 8px; height: 12px; background: #111; border-radius: 50%; z-index: 3; }
+        .eye-left { left: 16px; } 
+        .eye-right { right: 16px; }
+        
+        .smile { position: absolute; top: 35px; left: 50%; transform: translateX(-50%); width: 24px; height: 12px; border-bottom: 3px solid #111; border-radius: 0 0 50% 50%; z-index: 3; }
+        
+        .nose { width: 28px; height: 8px; background: linear-gradient(to right, #ff9900, #ff5500); position: absolute; top: 28px; left: 45px; border-radius: 50%; transform: rotate(10deg); z-index: 3;}
+        .scarf { position: absolute; top: -10px; width: 80px; height: 20px; background: #cc0000; border-radius: 10px; z-index: 3; box-shadow: 0 5px 10px #000; }
+        .scarf-tail { position: absolute; top: 8px; left: 20px; width: 15px; height: 45px; background: #cc0000; transform: rotate(-15deg); z-index: 1; border-radius: 5px; }
+        .hat { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); width: 60px; height: 40px; background: #111; border-radius: 10px 10px 0 0; z-index: 4; }
+        .hat-brim { position: absolute; top: 0px; left: -5px; width: 70px; height: 10px; background: #111; border-radius: 5px; z-index: 5; }
+
+        /* --- СНЕГ И ЗВЕЗДЫ --- */
         .snow-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
-        .snowflake { position: absolute; top: -10px; background-color: white; border-radius: 50%; opacity: 0.8; animation: fall linear infinite; filter: blur(1px); }
-        @keyframes fall {
-            0% { transform: translateY(-10px) translateX(0) rotate(0deg); }
-            100% { transform: translateY(105vh) translateX(100px) rotate(360deg); }
+        .snowflake { position: absolute; top: -10px; background-color: white; border-radius: 50%; opacity: 0.8; animation: fall linear infinite; }
+        .snowflake.back { filter: blur(1px); opacity: 0.5; z-index: 1; }
+        .snowflake.front { filter: blur(2px); opacity: 0.9; z-index: 5; }
+        @keyframes fall { 0% { transform: translateY(-10px) translateX(0) rotate(0deg); } 100% { transform: translateY(105vh) translateX(150px) rotate(720deg); } }
+        .bg-star { position: absolute; background: white; border-radius: 50%; animation: twinkle 2s infinite alternate; z-index: 0; }
+        @keyframes twinkle { 0% { opacity: 0.1; transform: scale(0.8); } 100% { opacity: 0.9; transform: scale(1.5); box-shadow: 0 0 10px #fff; } }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        /* --- ХОЛСТ ДЛЯ САЛЮТА --- */
+        canvas#fireworks-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
 
-    <!-- Гирлянда -->
+    <!-- Звезды -->
+    <div id="stars"></div>
+
+    <!-- Гирлянда (на веревке) -->
     <div class="garland-container">
         <div class="wire"></div>
-        <!-- Огоньки позиционируем через JS для красивой дуги -->
-        <div id="bulbs"></div>
+        <div class="garland-drop" id="garland-drop"></div>
     </div>
 
     <!-- Снег -->
     <div class="snow-container" id="snow-container"></div>
 
+    <!-- Холст для салюта -->
+    <canvas id="fireworks-canvas"></canvas>
+
     <!-- Ёлка -->
     <div class="tree-container">
         <div class="star-top">⭐</div>
-        <div class="tree-layer">
-            <div class="ornament"></div>
-            <div class="ornament"></div>
-            <div class="ornament"></div>
-        </div>
+        <div class="tree-layer"><div class="ornament"></div><div class="ornament"></div><div class="ornament"></div></div>
         <div class="tree-layer"></div>
         <div class="tree-layer"></div>
         <div class="trunk"></div>
@@ -282,12 +195,19 @@
     <!-- Снеговик -->
     <div class="snowman-container">
         <div class="snowball snowball-3">
-            <div class="face">👀</div>
+            <div class="hat"></div>
+            <div class="hat-brim"></div>
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="smile"></div>
             <div class="nose"></div>
             <div class="scarf"></div>
             <div class="scarf-tail"></div>
         </div>
-        <div class="snowball snowball-2"></div>
+        <div class="snowball snowball-2">
+            <div class="arm arm-left"></div>
+            <div class="arm arm-right"></div>
+        </div>
         <div class="snowball snowball-1"></div>
     </div>
 
@@ -310,43 +230,158 @@
     </div>
 
     <script>
-        // Генерация снега
+        // --- САЛЮТ ---
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        const fireworks = [];
+        const particles = [];
+        let lastSpawn = 0;
+
+        function resizeCanvas() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function random(min, max) { return Math.random() * (max - min) + min; }
+
+        function createFirework() {
+            const x = random(w * 0.1, w * 0.9);
+            const y = h;
+            const targetY = random(h * 0.1, h * 0.4);
+            const color = `hsl(${random(0, 360)}, 100%, 60%)`;
+            fireworks.push({ x, y, targetY, color });
+        }
+
+        function updateAndDraw() {
+            ctx.clearRect(0, 0, w, h);
+
+            const now = Date.now();
+            if (now - lastSpawn > 1500) {
+                createFirework();
+                lastSpawn = now;
+            }
+
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const f = fireworks[i];
+                f.y -= 9; 
+                
+                ctx.beginPath();
+                ctx.arc(f.x, f.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = f.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                for(let j=0; j<2; j++) {
+                    particles.push({
+                        x: f.x + random(-2,2), y: f.y + random(-2,2), 
+                        vx: random(-1, 1), vy: random(1, 3),
+                        life: 1, color: f.color, size: random(1, 2.5)
+                    });
+                }
+
+                if (f.y <= f.targetY) {
+                    for (let j = 0; j < 80; j++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = random(1, 8);
+                        particles.push({
+                            x: f.x, y: f.y,
+                            vx: Math.cos(angle) * speed,
+                            vy: Math.sin(angle) * speed,
+                            life: 1,
+                            color: f.color,
+                            size: random(2, 4.5)
+                        });
+                    }
+                    fireworks.splice(i, 1);
+                }
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.06;
+                p.vx *= 0.98;
+                p.vy *= 0.98;
+                p.life -= 0.012;
+
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = p.color;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+            }
+
+            requestAnimationFrame(updateAndDraw);
+        }
+        updateAndDraw();
+
+        // --- СНЕГ ---
         const snowContainer = document.getElementById('snow-container');
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 120; i++) {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
-            const size = Math.random() * 5 + 1;
-            snowflake.style.width = size + 'px';
-            snowflake.style.height = size + 'px';
+            if (i < 80) {
+                snowflake.classList.add('back');
+                const size = Math.random() * 3 + 1;
+                snowflake.style.width = size + 'px'; snowflake.style.height = size + 'px';
+                snowflake.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            } else {
+                snowflake.classList.add('front');
+                const size = Math.random() * 6 + 4;
+                snowflake.style.width = size + 'px'; snowflake.style.height = size + 'px';
+                snowflake.style.animationDuration = (Math.random() * 5 + 3) + 's';
+            }
             snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = (Math.random() * 8 + 5) + 's';
             snowflake.style.animationDelay = (Math.random() * 5) + 's';
-            snowflake.style.opacity = Math.random() * 0.7 + 0.3;
             snowContainer.appendChild(snowflake);
         }
 
-        // Генерация гирлянды по дуге
-        const bulbsContainer = document.getElementById('bulbs');
+        // --- ГИРЛЯНДА ---
+        const bulbsContainer = document.getElementById('garland-drop');
         const colors = ['red', 'green', 'blue', 'yellow', 'purple'];
-        const bulbCount = 25;
+        const bulbCount = 45;
         
         for (let i = 0; i <= bulbCount; i++) {
             const bulb = document.createElement('div');
             bulb.classList.add('bulb');
             bulb.classList.add(colors[i % colors.length]);
             
-            // Позиция по X (от 0% до 100%)
             const xPercent = (i / bulbCount) * 100;
             bulb.style.left = xPercent + '%';
             
-            // Позиция по Y (дуга параболы)
-            // Чем ближе к центру, тем ниже (больше Y)
-            const normalizedX = (xPercent - 50) / 50; // от -1 до 1
-            const yPercent = (1 - (normalizedX * normalizedX)) * 100; // 100 в центре, 0 по краям
-            
-            bulb.style.top = (yPercent * 0.8 + 10) + 'px'; // Немного приподнимаем
+            const normalizedX = (xPercent - 50) / 50;
+            const yPercent = (1 - (normalizedX * normalizedX)) * 150;
+            bulb.style.top = (10 + yPercent) + 'px';
             
             bulbsContainer.appendChild(bulb);
+        }
+
+        // --- ЗВЕЗДЫ ---
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.classList.add('bg-star');
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px'; star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
         }
     </script>
 </body>
